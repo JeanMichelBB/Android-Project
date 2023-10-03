@@ -3,6 +3,7 @@ package com.example.android_project.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android_project.R;
@@ -12,7 +13,8 @@ public class HomeAdministratorActivity extends AppCompatActivity {
 
     UserModel administrator;
     TextView txtWelcome;
-    
+
+    ListView listViewMovies;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
