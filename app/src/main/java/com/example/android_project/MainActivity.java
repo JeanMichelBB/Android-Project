@@ -13,9 +13,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayList <MovieModel> movieList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,25 +25,31 @@ public class MainActivity extends AppCompatActivity {
 
         final TextView resultTextView = findViewById(R.id.textView);
 
-        String apiUrl = "https://api.themoviedb.org/3/movie/550?api_key=16338f6f183f5ee2fce0e99d55cfbb5f";
+        String apiUrl = "https://my-json-server.typicode.com/JeanMichelBB/Android-Project/db";
 
         ApiBroker.fetchData(apiUrl, new ApiBroker.ApiResponseListener() {
             @Override
             public void onApiResponse(String response) throws JSONException {
-                JSONObject jsonObject = new JSONObject(response);
                 String baseUrl = "http://image.tmdb.org/t/p/w154";
-                String title = jsonObject.getString("title");
-                String description = jsonObject.getString("overview");
-                String imageUrl = baseUrl + jsonObject.getString("poster_path");
-                String releaseDate = jsonObject.getString("release_date");
-                String rating = jsonObject.getString("vote_average");
-                JSONArray genreArray = jsonObject.getJSONArray("genres");
-                JSONObject genreObject = genreArray.getJSONObject(0);
-                String genre = genreObject.getString("name");
-                MovieModel movieModel = new MovieModel(title, description, imageUrl, releaseDate, rating, genre);
-
-
-                resultTextView.setText(movieModel.toString());
+                JSONObject jsonObject = new JSONObject(response);
+                JSONArray movies = jsonObject.getJSONArray("movies");
+                // iterate through movies
+                for (int i = 0; i < movies.length(); i++) {
+                    JSONObject movie = movies.getJSONObject(i);
+                    String title = movie.getString("title");
+                    String description = movie.getString("overview");
+                    String imageUrl = baseUrl + movie.getString("poster_path");
+                    String releaseDate = movie.getString("release_date");
+                    String rating = movie.getString("vote_average");
+                    JSONArray genreArray = movie.getJSONArray("genres");
+                    String genre = "";
+                    for (int j = 0; j < genreArray.length(); j++) {
+                        genre += genreArray.getString(j) + (j == genreArray.length() - 1 ? "" : ", ");
+                    }
+                    MovieModel movieModel = new MovieModel(title, description, imageUrl, releaseDate, rating, genre);
+                    movieList.add(movieModel);
+//                    resultTextView.append(movieModel.toString());
+                }
             }
         });
     }
