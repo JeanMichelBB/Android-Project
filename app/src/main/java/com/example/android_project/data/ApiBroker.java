@@ -2,6 +2,8 @@ package com.example.android_project.data;
 
 import android.os.AsyncTask;
 
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +13,7 @@ import java.net.URL;
 
 public class ApiBroker {
     public interface ApiResponseListener {
-        void onApiResponse(String response);
+        void onApiResponse(String response) throws JSONException;
     }
     public static void fetchData(String apiUrl, ApiResponseListener listener) {
         new FetchDataTask(apiUrl, listener).execute();
@@ -58,12 +60,20 @@ public class ApiBroker {
             return null;
         }
         @Override
-        protected void onPostExecute(String response) {
+        protected void onPostExecute(String response)  {
             if (response != null) {
-                listener.onApiResponse(response);
+                try {
+                    listener.onApiResponse(response);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
                 // Handle error
-                listener.onApiResponse("Error fetching data from API");
+                try {
+                    listener.onApiResponse("Error fetching data from API");
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }

@@ -12,7 +12,7 @@ public class HomeAdministratorActivity extends AppCompatActivity {
 
     UserModel administrator;
     TextView txtWelcome;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,4 +23,5 @@ public class HomeAdministratorActivity extends AppCompatActivity {
         txtWelcome = findViewById(R.id.txtWelcome);
         txtWelcome.setText("Welcome " + administrator.getFirstName() );
     }
+
 }
