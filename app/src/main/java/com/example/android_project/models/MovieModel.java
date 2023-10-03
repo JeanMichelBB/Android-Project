@@ -1,32 +1,26 @@
 package com.example.android_project.models;
 
+import androidx.annotation.NonNull;
+
 public class MovieModel {
     private String title;
-    private String director;
     private String description;
     private String imageUrl;
     private String releaseDate;
     private String rating;
     private String genre;
-    private String duration;
 
-    public MovieModel(String title, String director, String description, String imageUrl, String releaseDate, String rating, String genre, String duration) {
+    public MovieModel(String title, String description, String imageUrl, String releaseDate, String rating, String genre) {
         this.title = title;
-        this.director = director;
         this.description = description;
         this.imageUrl = imageUrl;
         this.releaseDate = releaseDate;
         this.rating = rating;
         this.genre = genre;
-        this.duration = duration;
     }
 
     public String getTitle() {
         return title;
-    }
-
-    public String getDirector() {
-        return director;
     }
 
     public String getDescription() {
@@ -47,16 +41,8 @@ public class MovieModel {
         return genre;
     }
 
-    public String getDuration() {
-        return duration;
-    }
-
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setDirector(String director) {
-        this.director = director;
     }
 
     public void setDescription(String description) {
@@ -79,7 +65,12 @@ public class MovieModel {
         this.genre = genre;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
+    public String toString() {
+        return "Title: " + this.title + "\n" +
+                "Description: " + this.description + "\n" +
+                "Image URL: " + this.imageUrl + "\n" +
+                "Release Date: " + this.releaseDate + "\n" +
+                "Rating: " + this.rating + "\n" +
+                "Genre: " + this.genre;
     }
 }
