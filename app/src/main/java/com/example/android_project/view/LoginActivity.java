@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(authenticatedUser != null)
                 {
                     Intent intent = authenticatedUser.isAdministrator() ?
-                            new Intent(LoginActivity.this, HomeAdminitratorActivity.class) :
+                            new Intent(LoginActivity.this, HomeAdministratorActivity.class) :
                             new Intent(LoginActivity.this, HomeUserActivity.class);
 
                     intent.putExtra("AUTH_USER", authenticatedUser);

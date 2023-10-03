@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.example.android_project.R;
 import com.example.android_project.models.UserModel;
 
-public class HomeAdminitratorActivity extends AppCompatActivity {
+public class HomeAdministratorActivity extends AppCompatActivity {
 
     UserModel administrator;
     TextView txtWelcome;
@@ -16,7 +16,7 @@ public class HomeAdminitratorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_adminitrator);
+        setContentView(R.layout.activity_home_administrator);
 
         administrator = (UserModel) getIntent().getSerializableExtra("AUTH_USER");
 
