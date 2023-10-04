@@ -35,5 +35,6 @@ public class MainActivity extends AppCompatActivity {
                 resultTextView.setText(response);
             }
         });
+        imageView = findViewById(R.id.imageView);
     }
 }
