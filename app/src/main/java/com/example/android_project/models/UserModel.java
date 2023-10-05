@@ -1,38 +1,37 @@
 package com.example.android_project.models;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
 
 public class UserModel implements Serializable {
 
-    private static int Id = 1;
-
-    private int UserId;
-    private String Login;
+    private String UserId;
     private String FirstName;
     private String LastName;
-    private LocalDate DateOfBirth;
+    private Date DateOfBirth;
     private String Email;
     private String Password;
     private boolean IsAdministrator;
 
-    public UserModel(String login, String firstName, String lastName, LocalDate dateOfBirth, String email, String password, boolean isAdministrator) {
+    public UserModel()
+    {
+    }
 
-        Login = login;
+    public UserModel(String firstName, String lastName, Date dateOfBirth, String email, String password, boolean isAdministrator)
+    {
         FirstName = firstName;
         LastName = lastName;
         DateOfBirth = dateOfBirth;
         Email = email;
         Password = password;
         IsAdministrator = isAdministrator;
-        this.UserId = UserModel.Id++;
     }
-    public int getUserId() {
+    public String getUserId() {
         return UserId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         UserId = userId;
     }
 
@@ -52,11 +51,11 @@ public class UserModel implements Serializable {
         LastName = lastName;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return DateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         DateOfBirth = dateOfBirth;
     }
 
@@ -84,11 +83,28 @@ public class UserModel implements Serializable {
         IsAdministrator = administrator;
     }
 
-    public String getLogin() {
-        return Login;
+    public String getFullName()
+    {
+        return this.FirstName + " " + this.LastName;
     }
 
-    public void setLogin(String login) {
-        this.Login = login;
+    public void tryValidateModel()
+    {
+        if(this.FirstName.isEmpty())
+            throw new IllegalArgumentException("Invalid first name.");
+
+        if(this.LastName.isEmpty())
+            throw new IllegalArgumentException("Invalid last name.");
+
+        if(this.DateOfBirth.toString().isEmpty())
+            throw new IllegalArgumentException("Invalid date ff birth.");
+
+        if(this.Email.isEmpty())
+            throw new IllegalArgumentException("Invalid email address.");
+
+        if(this.Password.isEmpty())
+            throw new IllegalArgumentException("Invalid password.");
+
     }
+
 }

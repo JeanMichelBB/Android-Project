@@ -1,36 +1,72 @@
 package com.example.android_project.data;
 
 import android.content.OperationApplicationException;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.example.android_project.business.Authentication;
 import com.example.android_project.models.UserModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationDB {
+    private DatabaseReference mDatabase;
+    private UserDbListener userDbListener;
 
-        //TODO: This class must be replaced by a real Database.
+    public ApplicationDB()
+    {
+        this.userDbListener = null;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
 
-        private static List<UserModel> userList = new ArrayList<UserModel>();
+    public void InsertNewUser(UserModel newUser)
+    {
+        mDatabase.child("users").child(newUser.getUserId()).setValue(newUser);
+    }
 
-        public static void AddNewUser(UserModel newUser) throws OperationApplicationException {
-                UserModel existingUser = FindUserByLogin(newUser.getLogin());
-                if(existingUser != null)
-                {
-                        throw new OperationApplicationException("User " + newUser.getFirstName() + " is already registered.");
+    public void getUserById(String uId)
+    {
+        final UserModel user = null;
+        mDatabase.child("users").child(uId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+
+                    if(userDbListener != null)
+                    {
+                        userDbListener.onGetUserByIdFail(task.getException().getMessage());
+                    }
+
+                } else {
+                    UserModel user = task.getResult().getValue(UserModel.class);
+
+                    if(userDbListener != null)
+                    {
+                        userDbListener.onGetUserByIdSuccess(user);
+                    }
                 }
+            }
+        });
+    }
 
-                userList.add(newUser);
-        }
+    public ApplicationDB onUserDbListener(UserDbListener userDbListener)
+    {
+        this.userDbListener = userDbListener;
+        return this;
+    }
 
-        public static UserModel FindUserById(int userId)
-        {
-                return ApplicationDB.userList.stream().filter(u -> u.getUserId() == userId).findAny().orElse(null);
-        }
-
-        public static UserModel FindUserByLogin(String login)
-        {
-                return ApplicationDB.userList.stream().filter(u -> u.getLogin().toUpperCase().equals(login.toUpperCase())).findAny().orElse(null);
-        }
+    public interface UserDbListener
+    {
+        public void onGetUserByIdSuccess(UserModel model);
+        public void onGetUserByIdFail(String message);
+    }
 
 }
