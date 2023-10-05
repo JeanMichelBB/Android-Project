@@ -22,18 +22,17 @@ public class HomeAdministratorActivity extends AppCompatActivity {
     UserModel administrator;
     TextView txtWelcome;
     ListView getListViewMovies;
-    ArrayList<MovieModel> movieList = new ArrayList<>();
-    ListView listViewMovies;
+    ArrayList<MovieModel> movieList;
+    ListView listViewMovies ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_administrator);
-
         administrator = (UserModel) getIntent().getSerializableExtra("AUTH_USER");
+        listViewMovies = findViewById(R.id.listViewMovies);
 
 //        txtWelcome = findViewById(R.id.txtWelcome);
-//        listViewMovies = findViewById(R.id.listViewMovies);
-
 //        txtWelcome.setText("Welcome " + administrator.getFirstName() );
 
         String apiUrl = "https://my-json-server.typicode.com/JeanMichelBB/Android-Project/db";
@@ -44,7 +43,7 @@ public class HomeAdministratorActivity extends AppCompatActivity {
                 String baseUrl = "http://image.tmdb.org/t/p/w154";
                 JSONObject jsonObject = new JSONObject(response);
                 JSONArray movies = jsonObject.getJSONArray("movies");
-                // iterate through movies
+                movieList = new ArrayList<MovieModel>();
                 for (int i = 0; i < movies.length(); i++) {
                     JSONObject movie = movies.getJSONObject(i);
                     String title = movie.getString("title");
@@ -52,6 +51,7 @@ public class HomeAdministratorActivity extends AppCompatActivity {
                     String imageUrl = baseUrl + movie.getString("poster_path");
                     String releaseDate = movie.getString("release_date");
                     String rating = movie.getString("vote_average");
+                    rating = String.valueOf(Float.parseFloat(rating) / 2);
                     JSONArray genreArray = movie.getJSONArray("genres");
                     String genre = "";
                     for (int j = 0; j < genreArray.length(); j++) {
@@ -61,8 +61,9 @@ public class HomeAdministratorActivity extends AppCompatActivity {
                     movieList.add(movieModel);
                     System.out.println(movieModel.toString());
                 }
-//                MovieAdapter adapter = new MovieAdapter(HomeAdministratorActivity.this, movieList);
-//                listViewMovies.setAdapter(adapter);
+
+                MovieAdapter adapter = new MovieAdapter(HomeAdministratorActivity.this, movieList);
+                listViewMovies.setAdapter(adapter);
             }
         });
     }
