@@ -22,10 +22,10 @@
         >
 
         <EditText
-            android:id="@+id/TxtLogin"
+            android:id="@+id/TxtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="User Name"
+            android:hint="Email"
             android:inputType="textEmailAddress"
             android:textSize="16sp"
             />
