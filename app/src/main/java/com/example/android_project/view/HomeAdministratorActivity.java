@@ -32,12 +32,12 @@ public class HomeAdministratorActivity extends AppCompatActivity {
         administrator = (UserModel) getIntent().getSerializableExtra("AUTH_USER");
         listViewMovies = findViewById(R.id.listViewMovies);
 
-//        txtWelcome = findViewById(R.id.txtWelcome);
-//        txtWelcome.setText("Welcome " + administrator.getFirstName() );
+        txtWelcome = findViewById(R.id.txtWelcome);
+        txtWelcome.setText("Welcome " + administrator.getFirstName() + "!");
 
-        String apiUrl = "https://my-json-server.typicode.com/JeanMichelBB/Android-Project/db";
+        String API_URL = "https://my-json-server.typicode.com/JeanMichelBB/Android-Project/db";
 
-        ApiBroker.fetchData(apiUrl, new ApiBroker.ApiResponseListener() {
+        ApiBroker.fetchData(API_URL, new ApiBroker.ApiResponseListener() {
             @Override
             public void onApiResponse(String response) throws JSONException {
                 String baseUrl = "http://image.tmdb.org/t/p/w154";

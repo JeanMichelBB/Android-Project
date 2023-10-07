@@ -11,9 +11,14 @@ import com.example.android_project.R;
 import com.example.android_project.business.Authentication;
 import com.example.android_project.models.UserModel;
 
+import java.util.ArrayList;
+
 public class HomeUserActivity extends AppCompatActivity {
     TextView txtWelcome;
     UserModel user;
+
+//    ArrayList<MovieModel> movieList = new ArrayList<>();
+//    ListView listViewMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
