@@ -1,6 +1,12 @@
 package com.example.android_project.data;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -77,5 +83,42 @@ public class ApiBroker {
             }
         }
     }
+
+    public interface ImageResponseListener {
+        void onImageResponse(Bitmap image);
+    }
+
+    public static void fetchImage(String imageUrl, ImageResponseListener listener) {
+        new DownloadImageFromInternet(imageUrl, listener).execute();
+    }
+
+    private static class DownloadImageFromInternet extends AsyncTask<String, Void, Bitmap> {
+        private final String imageUrl;
+        private final ImageResponseListener listener;
+
+        public DownloadImageFromInternet(String imageUrl, ImageResponseListener listener) {
+            this.imageUrl = imageUrl;
+            this.listener = listener;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bimage=null;
+            try {
+                InputStream in=new java.net.URL(this.imageUrl).openStream();
+                bimage= BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error Message", e.getMessage());
+                e.printStackTrace();
+            }
+            return bimage;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            listener.onImageResponse(result);
+        }
+
+    }
+
 
 }

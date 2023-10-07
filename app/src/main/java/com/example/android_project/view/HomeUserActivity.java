@@ -17,8 +17,8 @@ public class HomeUserActivity extends AppCompatActivity {
     TextView txtWelcome;
     UserModel user;
 
-    ArrayList<MovieModel> movieList = new ArrayList<>();
-    ListView listViewMovies;
+//    ArrayList<MovieModel> movieList = new ArrayList<>();
+//    ListView listViewMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

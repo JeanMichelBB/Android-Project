@@ -1,6 +1,7 @@
 package com.example.android_project.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.android_project.MainActivity;
 import com.example.android_project.R;
+import com.example.android_project.data.ApiBroker;
 import com.example.android_project.models.MovieModel;
 
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ public class MovieAdapter extends ArrayAdapter {
             movieViewHolder.movieReleaseDateText = convertView.findViewById(R.id.movieReleaseDate);
             movieViewHolder.movieGenreText = convertView.findViewById(R.id.movieGenres);
             movieViewHolder.movieRatingBar = convertView.findViewById(R.id.movieRating);
+            movieViewHolder.imageViewMovie = convertView.findViewById(R.id.movieImage);
 
             convertView.setTag(movieViewHolder);
         } else {
@@ -60,6 +64,13 @@ public class MovieAdapter extends ArrayAdapter {
         movieViewHolder.movieGenreText.setText(movie.getGenre());
         movieViewHolder.movieRatingBar.setRating(Float.parseFloat(movie.getRating()));
 
+        String imageUrl = movie.getImageUrl();
+        ApiBroker.fetchImage(imageUrl, new ApiBroker.ImageResponseListener() {
+            @Override
+            public void onImageResponse(Bitmap image) {
+                movieViewHolder.imageViewMovie.setImageBitmap(image);
+            }
+        });
         return convertView;
     }
 }
