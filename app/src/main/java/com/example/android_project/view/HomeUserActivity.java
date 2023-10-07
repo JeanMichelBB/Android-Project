@@ -34,8 +34,8 @@ public class HomeUserActivity extends AppCompatActivity {
 
         // retrieve movies from Database
 
-        MovieAdapterUser adapter = new MovieAdapterUser(HomeUserActivity.this, movieList);
-        listView.setAdapter(adapter);
+//        MovieAdapterUser adapter = new MovieAdapterUser(HomeUserActivity.this, movieList);
+//        listView.setAdapter(adapter);
     }
 
     @Override
