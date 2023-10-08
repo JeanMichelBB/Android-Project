@@ -73,6 +73,11 @@ public class MovieAdapter extends ArrayAdapter {
         movieViewHolder.movieReleaseDateText.setText(movie.getReleaseDate());
         movieViewHolder.movieGenreText.setText(movie.getGenre());
         movieViewHolder.movieRatingBar.setRating(Float.parseFloat(movie.getRating()));
+        if (movie.getIsAssigned()) {
+            movieViewHolder.toggleAssignMovie.setChecked(true);
+        } else {
+            movieViewHolder.toggleAssignMovie.setChecked(false);
+        }
 
         String imageUrl = movie.getImageUrl();
         ApiBroker.fetchImage(imageUrl, new ApiBroker.ImageResponseListener() {
@@ -85,14 +90,12 @@ public class MovieAdapter extends ArrayAdapter {
         if (isTeacher) {
             movieViewHolder.toggleAssignMovie.setVisibility(View.VISIBLE);
             movieViewHolder.movieDescriptionText.setVisibility(View.GONE);
-            movieViewHolder.toggleAssignMovie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            movieViewHolder.toggleAssignMovie.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
-                        System.out.println("Movie assigned" + movie.getTitle());
+                public void onClick(View v) {
+                    if (movieViewHolder.toggleAssignMovie.isChecked()) {
                         movieManagement.assignMovie(movie);
                     } else {
-                        System.out.println("Movie unassigned" + movie.getTitle());
                         movieManagement.unassignMovie(movie);
                     }
                 }

@@ -1,23 +1,25 @@
 package com.example.android_project.business;
 
 import com.example.android_project.data.ApplicationDB;
+import com.example.android_project.data.MovieDB;
 import com.example.android_project.models.MovieModel;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovieManagement {
-    private ApplicationDB applicationDB;
+    private MovieDB movieDB;
     public MovieManagement(){
-        this.applicationDB = new ApplicationDB();
-    }
-    public ArrayList<MovieModel> getAllMovies(){
-        return applicationDB.getAllMovies();
+        this.movieDB = new MovieDB();
     }
     public void assignMovie(MovieModel movie){
-        applicationDB.AssignMovie(movie);
+        movieDB.assignMovie(movie);
     }
     public void unassignMovie(MovieModel movie){
-        applicationDB.UnassignMovie(movie);
+        movieDB.unassignMovie(movie);
+    }
+    public void getAllMovies(final ValueEventListener listener) {
+        movieDB.getAllMovies(listener);
     }
 }

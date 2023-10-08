@@ -10,8 +10,9 @@ public class MovieModel {
     private String releaseDate;
     private String rating;
     private String genre;
+    private Boolean isAssigned;
 
-    public MovieModel(int movieId,String title, String description, String imageUrl, String releaseDate, String rating, String genre) {
+    public MovieModel(int movieId,String title, String description, String imageUrl, String releaseDate, String rating, String genre, Boolean isAssigned) {
         this.movieId = movieId;
         this.title = title;
         this.description = description;
@@ -19,8 +20,13 @@ public class MovieModel {
         this.releaseDate = releaseDate;
         this.rating = rating;
         this.genre = genre;
+        this.isAssigned = isAssigned;
     }
+
+    public MovieModel() {}
+
     public int getMovieId() { return movieId; }
+
     public String getTitle() {
         return title;
     }
@@ -43,6 +49,8 @@ public class MovieModel {
         return genre;
     }
 
+    public Boolean getIsAssigned() { return isAssigned; }
+
     public void setMovieId(int movieId) { this.movieId = movieId; }
 
     public void setTitle(String title) {
@@ -56,6 +64,7 @@ public class MovieModel {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
@@ -68,6 +77,8 @@ public class MovieModel {
         this.genre = genre;
     }
 
+    public void setIsAssigned(Boolean isAssigned) { this.isAssigned = isAssigned; }
+
     public String toString() {
         return "Movie ID: " + this.movieId + "\n" +
                 "Title: " + this.title + "\n" +
@@ -75,6 +86,7 @@ public class MovieModel {
                 "Image URL: " + this.imageUrl + "\n" +
                 "Release Date: " + this.releaseDate + "\n" +
                 "Rating: " + this.rating + "\n" +
-                "Genre: " + this.genre + "\n";
+                "Genre: " + this.genre + "\n" +
+                "Is Assigned: " + this.isAssigned + "\n";
     }
 }
