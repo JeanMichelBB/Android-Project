@@ -6,15 +6,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.android_project.MainActivity;
 import com.example.android_project.R;
+import com.example.android_project.business.MovieManagement;
 import com.example.android_project.data.ApiBroker;
 import com.example.android_project.models.MovieModel;
 
@@ -22,18 +27,22 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends ArrayAdapter {
     ArrayList<MovieModel> movieList = new ArrayList<>();
+    MovieManagement movieManagement = new MovieManagement();
     Context context;
+    private boolean isTeacher;
 
-    public MovieAdapter(Context context, ArrayList<MovieModel> movieList) {
+    public MovieAdapter(Context context, ArrayList<MovieModel> movieList, boolean isTeacher) {
         super(context, R.layout.movie_item, movieList);
         this.movieList = movieList;
         this.context = context;
+        this.isTeacher = isTeacher;
     }
 
     public static class ViewHolder{
         TextView movieTitleText, movieDescriptionText, movieReleaseDateText, movieGenreText;
         RatingBar movieRatingBar;
         ImageView imageViewMovie;
+        ToggleButton toggleAssignMovie;
     }
 
     @NonNull
@@ -53,6 +62,7 @@ public class MovieAdapter extends ArrayAdapter {
             movieViewHolder.movieGenreText = convertView.findViewById(R.id.movieGenres);
             movieViewHolder.movieRatingBar = convertView.findViewById(R.id.movieRating);
             movieViewHolder.imageViewMovie = convertView.findViewById(R.id.movieImage);
+            movieViewHolder.toggleAssignMovie = convertView.findViewById(R.id.toggleAssignMovie);
 
             convertView.setTag(movieViewHolder);
         } else {
@@ -63,6 +73,11 @@ public class MovieAdapter extends ArrayAdapter {
         movieViewHolder.movieReleaseDateText.setText(movie.getReleaseDate());
         movieViewHolder.movieGenreText.setText(movie.getGenre());
         movieViewHolder.movieRatingBar.setRating(Float.parseFloat(movie.getRating()));
+        if (movie.getIsAssigned()) {
+            movieViewHolder.toggleAssignMovie.setChecked(true);
+        } else {
+            movieViewHolder.toggleAssignMovie.setChecked(false);
+        }
 
         String imageUrl = movie.getImageUrl();
         ApiBroker.fetchImage(imageUrl, new ApiBroker.ImageResponseListener() {
@@ -71,6 +86,25 @@ public class MovieAdapter extends ArrayAdapter {
                 movieViewHolder.imageViewMovie.setImageBitmap(image);
             }
         });
+
+        if (isTeacher) {
+            movieViewHolder.toggleAssignMovie.setVisibility(View.VISIBLE);
+            movieViewHolder.movieDescriptionText.setVisibility(View.GONE);
+            movieViewHolder.toggleAssignMovie.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (movieViewHolder.toggleAssignMovie.isChecked()) {
+                        movieManagement.assignMovie(movie);
+                    } else {
+                        movieManagement.unassignMovie(movie);
+                    }
+                }
+            });
+        } else {
+            movieViewHolder.toggleAssignMovie.setVisibility(View.GONE);
+            movieViewHolder.movieDescriptionText.setVisibility(View.VISIBLE);
+        }
+
         return convertView;
     }
 }

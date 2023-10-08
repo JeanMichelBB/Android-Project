@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.android_project.business.Authentication;
+import com.example.android_project.models.MovieModel;
 import com.example.android_project.models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,7 +20,6 @@ import java.util.List;
 public class ApplicationDB {
     private DatabaseReference mDatabase;
     private UserDbListener userDbListener;
-
     public ApplicationDB()
     {
         this.userDbListener = null;
