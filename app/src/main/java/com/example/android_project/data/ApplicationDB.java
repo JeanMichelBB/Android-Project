@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.android_project.business.Authentication;
+import com.example.android_project.models.MovieModel;
 import com.example.android_project.models.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,10 +20,11 @@ import java.util.List;
 public class ApplicationDB {
     private DatabaseReference mDatabase;
     private UserDbListener userDbListener;
-
+//    private MovieDbListener movieDbListener;
     public ApplicationDB()
     {
         this.userDbListener = null;
+//        this.movieDbListener = null;
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -69,4 +71,49 @@ public class ApplicationDB {
         public void onGetUserByIdFail(String message);
     }
 
+    public void AssignMovie(MovieModel movie)
+    {
+        mDatabase.child("movies").child(String.valueOf(movie.getMovieId())).setValue(movie);
+    }
+
+    public void UnassignMovie(MovieModel movie)
+    {
+        mDatabase.child("movies").child(String.valueOf(movie.getMovieId())).removeValue();
+    }
+
+//    public ApplicationDB onMovieDbListener(MovieDbListener movieDbListener)
+//    {
+//        this.movieDbListener = movieDbListener;
+//        return this;
+//    }
+
+//    public interface MovieDbListener
+//    {
+//        public void onAssignMovieSuccess();
+//        public void onAssignMovieFail(String message);
+//        public void onDeleteMovieSuccess();
+//        public void onDeleteMovieFail(String message);
+//    }
+
+    public ArrayList<MovieModel> getAllMovies()
+    {
+        final ArrayList<MovieModel> movies = new ArrayList<MovieModel>();
+        mDatabase.child("movies").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful())
+                {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else
+                {
+                    for(DataSnapshot movie : task.getResult().getChildren())
+                    {
+                        movies.add(movie.getValue(MovieModel.class));
+                    }
+                }
+            }
+        });
+        return movies;
+    }
 }

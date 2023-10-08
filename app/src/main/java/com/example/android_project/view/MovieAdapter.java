@@ -6,9 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.android_project.MainActivity;
 import com.example.android_project.R;
+import com.example.android_project.business.MovieManagement;
 import com.example.android_project.data.ApiBroker;
 import com.example.android_project.models.MovieModel;
 
@@ -23,6 +27,7 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends ArrayAdapter {
     ArrayList<MovieModel> movieList = new ArrayList<>();
+    MovieManagement movieManagement = new MovieManagement();
     Context context;
     private boolean isTeacher;
 
@@ -37,7 +42,7 @@ public class MovieAdapter extends ArrayAdapter {
         TextView movieTitleText, movieDescriptionText, movieReleaseDateText, movieGenreText;
         RatingBar movieRatingBar;
         ImageView imageViewMovie;
-        SwitchCompat switchAssignMovie;
+        ToggleButton toggleAssignMovie;
     }
 
     @NonNull
@@ -57,7 +62,7 @@ public class MovieAdapter extends ArrayAdapter {
             movieViewHolder.movieGenreText = convertView.findViewById(R.id.movieGenres);
             movieViewHolder.movieRatingBar = convertView.findViewById(R.id.movieRating);
             movieViewHolder.imageViewMovie = convertView.findViewById(R.id.movieImage);
-            movieViewHolder.switchAssignMovie = convertView.findViewById(R.id.switchAssignMovie);
+            movieViewHolder.toggleAssignMovie = convertView.findViewById(R.id.toggleAssignMovie);
 
             convertView.setTag(movieViewHolder);
         } else {
@@ -78,10 +83,22 @@ public class MovieAdapter extends ArrayAdapter {
         });
 
         if (isTeacher) {
-            movieViewHolder.switchAssignMovie.setVisibility(View.VISIBLE);
+            movieViewHolder.toggleAssignMovie.setVisibility(View.VISIBLE);
             movieViewHolder.movieDescriptionText.setVisibility(View.GONE);
+            movieViewHolder.toggleAssignMovie.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked){
+                        System.out.println("Movie assigned" + movie.getTitle());
+                        movieManagement.assignMovie(movie);
+                    } else {
+                        System.out.println("Movie unassigned" + movie.getTitle());
+                        movieManagement.unassignMovie(movie);
+                    }
+                }
+            });
         } else {
-            movieViewHolder.switchAssignMovie.setVisibility(View.GONE);
+            movieViewHolder.toggleAssignMovie.setVisibility(View.GONE);
             movieViewHolder.movieDescriptionText.setVisibility(View.VISIBLE);
         }
 

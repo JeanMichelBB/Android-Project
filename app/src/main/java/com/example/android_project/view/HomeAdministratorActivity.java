@@ -1,10 +1,13 @@
 package com.example.android_project.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.os.Bundle;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.android_project.R;
 import com.example.android_project.data.ApiBroker;
@@ -25,13 +28,14 @@ public class HomeAdministratorActivity extends AppCompatActivity {
     ArrayList<MovieModel> movieList;
     ListView listViewMovies ;
 
+    ToggleButton toggleAssignMovie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_administrator);
         administrator = (UserModel) getIntent().getSerializableExtra("AUTH_USER");
         listViewMovies = findViewById(R.id.listViewMovies);
-
+        toggleAssignMovie = findViewById(R.id.toggleAssignMovie);
         txtWelcome = findViewById(R.id.txtWelcome);
         txtWelcome.setText("Welcome " + administrator.getFirstName() + "!");
 
@@ -46,6 +50,7 @@ public class HomeAdministratorActivity extends AppCompatActivity {
                 movieList = new ArrayList<MovieModel>();
                 for (int i = 0; i < movies.length(); i++) {
                     JSONObject movie = movies.getJSONObject(i);
+                    int movieId = movie.getInt("id");
                     String title = movie.getString("title");
                     String description = movie.getString("overview");
                     String imageUrl = baseUrl + movie.getString("poster_path");
@@ -57,13 +62,15 @@ public class HomeAdministratorActivity extends AppCompatActivity {
                     for (int j = 0; j < genreArray.length(); j++) {
                         genre += genreArray.getString(j) + (j == genreArray.length() - 1 ? "" : ", ");
                     }
-                    MovieModel movieModel = new MovieModel(title, description, imageUrl, releaseDate, rating, genre);
+                    MovieModel movieModel = new MovieModel(movieId, title, description, imageUrl, releaseDate, rating, genre);
                     movieList.add(movieModel);
                     System.out.println(movieModel.toString());
                 }
 
                 MovieAdapter adapter = new MovieAdapter(HomeAdministratorActivity.this, movieList, true);
                 listViewMovies.setAdapter(adapter);
+
+
             }
         });
     }
