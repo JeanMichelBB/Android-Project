@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.android_project.MainActivity;
 import com.example.android_project.R;
@@ -23,17 +24,20 @@ import java.util.ArrayList;
 public class MovieAdapter extends ArrayAdapter {
     ArrayList<MovieModel> movieList = new ArrayList<>();
     Context context;
+    private boolean isTeacher;
 
-    public MovieAdapter(Context context, ArrayList<MovieModel> movieList) {
+    public MovieAdapter(Context context, ArrayList<MovieModel> movieList, boolean isTeacher) {
         super(context, R.layout.movie_item, movieList);
         this.movieList = movieList;
         this.context = context;
+        this.isTeacher = isTeacher;
     }
 
     public static class ViewHolder{
         TextView movieTitleText, movieDescriptionText, movieReleaseDateText, movieGenreText;
         RatingBar movieRatingBar;
         ImageView imageViewMovie;
+        SwitchCompat switchAssignMovie;
     }
 
     @NonNull
@@ -53,6 +57,7 @@ public class MovieAdapter extends ArrayAdapter {
             movieViewHolder.movieGenreText = convertView.findViewById(R.id.movieGenres);
             movieViewHolder.movieRatingBar = convertView.findViewById(R.id.movieRating);
             movieViewHolder.imageViewMovie = convertView.findViewById(R.id.movieImage);
+            movieViewHolder.switchAssignMovie = convertView.findViewById(R.id.switchAssignMovie);
 
             convertView.setTag(movieViewHolder);
         } else {
@@ -71,6 +76,15 @@ public class MovieAdapter extends ArrayAdapter {
                 movieViewHolder.imageViewMovie.setImageBitmap(image);
             }
         });
+
+        if (isTeacher) {
+            movieViewHolder.switchAssignMovie.setVisibility(View.VISIBLE);
+            movieViewHolder.movieDescriptionText.setVisibility(View.GONE);
+        } else {
+            movieViewHolder.switchAssignMovie.setVisibility(View.GONE);
+            movieViewHolder.movieDescriptionText.setVisibility(View.VISIBLE);
+        }
+
         return convertView;
     }
 }

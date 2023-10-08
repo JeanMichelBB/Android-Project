@@ -62,7 +62,7 @@ public class HomeAdministratorActivity extends AppCompatActivity {
                     System.out.println(movieModel.toString());
                 }
 
-                MovieAdapter adapter = new MovieAdapter(HomeAdministratorActivity.this, movieList);
+                MovieAdapter adapter = new MovieAdapter(HomeAdministratorActivity.this, movieList, true);
                 listViewMovies.setAdapter(adapter);
             }
         });
