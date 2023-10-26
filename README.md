@@ -1,5 +1,5 @@
 # Movies Assignment App
-![moviepicks](url.png)
+![moviepicks](moviepicks.png)
 
 ## Developers: 
 - 🐣 [@JeanMichelBB](https://github.com/JeanMichelBB)
