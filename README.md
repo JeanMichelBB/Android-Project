@@ -1,4 +1,6 @@
 # Movies Assignment App
+This application allows a teacher to select and assign movies from a list for their students to watch as assignment.
+
 ![moviepicks](moviepicks.png)
 
 ## Developers: 
