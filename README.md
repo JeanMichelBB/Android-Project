@@ -5,8 +5,8 @@ This application allows a teacher to select and assign movies from a list for th
 
 ## Developers: 
 - 🐣 [@JeanMichelBB](https://github.com/JeanMichelBB)
-- 🤙 [@anyruizd](https://github.com/anyruizd)
-- 🐈 [@tksakamoto](https://github.com/tksakamoto)
+- 🤙 [@tksakamoto](https://github.com/tksakamoto)
+- 🐈 [@anyruizd](https://github.com/anyruizd)
 
 ## APIs:
 Custom API created to retrieve the list of movies as we need. 
